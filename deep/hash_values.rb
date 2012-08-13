@@ -1,20 +1,20 @@
 module Deep
   module Matchers
 
-    def have_keys_in_class(expected)
-      HashKeys.new(expected)
+    def have_values_in_class(expected)
+      HashValues.new(expected)
     end
 
-    # Checks that hash keys are only String or Symbol
-    # Usage : it { should have_keys_in_class [String, Symbol] }
-    class HashKeys
+    # Checks that hash values are only String or Symbol
+    # Usage : it { should have_values_in_class [String, Symbol] }
+    class HashValues
 
       def initialize(expectation)
         @expectation = expectation
       end
 
       def description 
-        "have (recursively) every key one of class: #{[@expectation].flatten.join ','}"
+        "have (recursively) every value one of class: #{[@expectation].flatten.join ','}"
       end
 
       def matches?(target)
@@ -25,9 +25,9 @@ module Deep
 
           case @expectation
           when Class
-            result &&= [@expectation] == @target.keys.map(&:class).uniq
+            result &&= [@expectation] == @target.values.map(&:class).uniq
           when Array
-            @target.keys.map(&:class).uniq.each do |kls|
+            @target.values.map(&:class).uniq.each do |kls|
               result &&= @expectation.include? kls
             end
           else
@@ -40,7 +40,7 @@ module Deep
 
           @target.each_value do |val|
             if val.is_a? Hash
-              result &&= val.is_a?(Hash) && HashKeys.new(@expectation).matches?(val)
+              result &&= val.is_a?(Hash) && HashValues.new(@expectation).matches?(val)
             end
           end
 
@@ -51,11 +51,11 @@ module Deep
 
 
       def failure_message_for_should
-        "expected #{@target.keys.inspect} #{@target.keys.map(&:class).uniq} to be one of the #{@expectation.inspect}"
+        "expected #{@target.values.inspect} #{@target.values.map(&:class).uniq} to be one of the #{@expectation.inspect}"
       end
 
       def failure_message_for_should_not
-        "expected #{@target.keys.inspect} differ from  #{@expectation.inspect}"
+        "expected #{@target.values.inspect} differ from  #{@expectation.inspect}"
       end
     end
 

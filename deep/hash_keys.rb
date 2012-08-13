@@ -51,7 +51,7 @@ module Deep
 
 
       def failure_message_for_should
-        "expected #{@target.keys.inspect} #{@target.keys.map(&:class).uniq} to be one of the #{@expectation.inspect}"
+        "expected #{@target.keys.inspect} #{@target.keys.map(&:class).uniq} to be one of #{@expectation.inspect}"
       end
 
       def failure_message_for_should_not

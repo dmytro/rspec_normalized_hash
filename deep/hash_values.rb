@@ -25,11 +25,11 @@ module Deep
 
           case @expectation
           when Class
-            result &&= [@expectation] == @target.values.map(&:class).uniq
+#            result &&= [@expectation] == @target.values.map(&:class).uniq
           when Array
-            @target.values.map(&:class).uniq.each do |kls|
-              result &&= @expectation.include? kls
-            end
+#             @target.values.map(&:class).uniq.each do |kls|
+#               result &&= @expectation.include? kls
+#             end
           else
             raise ArgumentError, 
             "#{@expectation.inspect}: Expectation data should be Class or Array[of Classes], got #{@expectation.class}"
@@ -39,8 +39,15 @@ module Deep
           # data are not reported correctly.
 
           @target.each_value do |val|
-            if val.is_a? Hash
+            if [@expectation].flatten.include? val.class
+p [@expectation].flatten
+p val.class
               result &&= val.is_a?(Hash) && HashValues.new(@expectation).matches?(val)
+            else
+              result = false
+              # WRONG!!
+              #             when Array
+              #               result &&= ArrayValues.new(@expectation).matches?(val)
             end
           end
 

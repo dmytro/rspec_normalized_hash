@@ -7,11 +7,7 @@ module Deep
 
     # Checks that hash keys are only String or Symbol
     # Usage : it { should have_keys_in_class [String, Symbol] }
-    class HashKeys
-
-      def initialize(expectation)
-        @expectation = expectation
-      end
+    class HashKeys < HashMatchers
 
       def description 
         "have (recursively) every key one of class: #{[@expectation].flatten.join ','}"
@@ -21,29 +17,15 @@ module Deep
         result = true
         
         if target.is_a? Hash
-          @target = target
 
-          case @expectation
-          when Class
-            result &&= [@expectation] == @target.keys.map(&:class).uniq
-          when Array
-            @target.keys.map(&:class).uniq.each do |kls|
-              result &&= @expectation.include? kls
-            end
-          else
-            raise ArgumentError, 
-            "#{@expectation.inspect}: Expectation data should be Class or Array[of Classes], got #{@expectation.class}"
-          end
+          @target, @actual = target, target.keys.map(&:class).uniq
 
-          # FIXME: scoping (?) issue. When calling recursive failed
-          # data are not reported correctly.
+          result &&= (@actual - @expectation).empty?
 
           @target.each_value do |val|
-            if val.is_a? Hash
-              result &&= val.is_a?(Hash) && HashKeys.new(@expectation).matches?(val)
-            end
+            result &&= HashKeys.new(@expectation).matches?(val) if val.is_a? Hash
+            @target = val unless result
           end
-
         end
 
         result
@@ -51,7 +33,7 @@ module Deep
 
 
       def failure_message_for_should
-        "expected #{@target.keys.inspect} #{@target.keys.map(&:class).uniq} to be one of #{@expectation.inspect}"
+        "expected #{@target.keys.inspect} #{@actual} to be one of #{@expectation.inspect}"
       end
 
       def failure_message_for_should_not

@@ -1,17 +1,13 @@
 module Deep
   module Matchers
-
+    
     def have_values_in_class(expected)
       HashValues.new(expected)
     end
 
     # Checks that hash values are only String or Symbol
     # Usage : it { should have_values_in_class [String, Symbol] }
-    class HashValues
-
-      def initialize(expectation)
-        @expectation = expectation
-      end
+    class HashValues < HashMatchers
 
       def description 
         "have (recursively) every value one of class: #{[@expectation].flatten.join ','}"
@@ -19,38 +15,16 @@ module Deep
 
       def matches?(target)
         result = true
-        
+
         if target.is_a? Hash
-          @target = target
+          @target, @actual = target, target.values.map(&:class).uniq
 
-          case @expectation
-          when Class
-#            result &&= [@expectation] == @target.values.map(&:class).uniq
-          when Array
-#             @target.values.map(&:class).uniq.each do |kls|
-#               result &&= @expectation.include? kls
-#             end
-          else
-            raise ArgumentError, 
-            "#{@expectation.inspect}: Expectation data should be Class or Array[of Classes], got #{@expectation.class}"
-          end
-
-          # FIXME: scoping (?) issue. When calling recursive failed
-          # data are not reported correctly.
-
+          result &&= (@actual - @expectation).empty?
+          
           @target.each_value do |val|
-            if [@expectation].flatten.include? val.class
-p [@expectation].flatten
-p val.class
-              result &&= val.is_a?(Hash) && HashValues.new(@expectation).matches?(val)
-            else
-              result = false
-              # WRONG!!
-              #             when Array
-              #               result &&= ArrayValues.new(@expectation).matches?(val)
-            end
+            result &&= HashValues.new(@expectation).matches?(val) if val.is_a?(Hash)
+            @target = val unless result
           end
-
         end
 
         result
@@ -58,7 +32,7 @@ p val.class
 
 
       def failure_message_for_should
-        "expected #{@target.values.inspect} #{@target.values.map(&:class).uniq} to be one of the #{@expectation.inspect}"
+        "expected #{@target.values.inspect} to have values of classes #{@expectation.inspect}"
       end
 
       def failure_message_for_should_not

@@ -30,11 +30,7 @@ describe 'Normalized Hash - enclosing array' do
 
       context '2 levels' do 
         subject { 
-           { 
-          #:single_levels => [
-#                         { :single_level => 1},
-#                         { :single_level => 2},
-#                        ],
+          { 
             :deep => 
             { :two_levels => 
               [
@@ -44,7 +40,7 @@ describe 'Normalized Hash - enclosing array' do
             }
           }
         }
-        it { should all_arrays_have_hash_with_key_word_name_or_singular_of_hash_key }
+        it { should_not all_arrays_have_hash_with_key_word_name_or_singular_of_hash_key }
       end
     end # context "Hash-> [Array]-> Hash" do 
   end #  context "enclosed in Array Hash" do 

@@ -94,29 +94,43 @@ module Deep
     #     }
     class HashEnclosingArray
       def description
-        "enclose Arrays of Hashes with key #{@target.keys}"
+        @description
       end
 
-      def failure_message_for_should;  description + @failure; end
-      def failure_message_for_should_not; 'not ' + description end
+      def failure_message_for_should
+        [@target.inspect, description, @failure].join ' '
+      end
+
+      def failure_message_for_should_not
+        [@target.inspect, 'not', description, @failure].join ' '
+      end
 
 
+      # Run matcher only if target is Hash with Array embedded at the
+      # first depth level. Not recursive, recursion should be
+      # implemented on level higher.
       def matches? target
 
-        @target = target
         result = true
-        @failure = ":\n"
-        
-        if @target.is_a? Hash
+        @target = target
+
+        if (target.is_a?(Hash) && target.values.map(&:class).include?(Array))
+          
+          @description = "enclose Arrays of Hashes with key #{@target.keys}"
+          @failure = ":\n"
+          
           target.each do |key,array|
             if array.is_a? Array
+              @checked = array
               res = KeyNamesOfEnclosedHash.new(key).matches?(array)
               result &&= res
               @failure << { key => array}.inspect unless res
             end
           end
+        else
+          @description = "*** spec did not run *** " 
+          result = false
         end
-        
         
         result
       end

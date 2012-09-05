@@ -138,7 +138,7 @@ describe '"Normalized" Hash' do
           
           it {
             subject.merge(
-                          { :file => File.new('a','w') }
+                          { :file => File.new('.tmp','w') }
                           ).should_not have_values_in_class [String, Numeric, Array, Hash]
           }
         end # 3 levels

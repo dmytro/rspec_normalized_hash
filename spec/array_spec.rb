@@ -6,7 +6,7 @@ describe 'Normalized Hash - Array' do
 
   context "simple" do
     context "Numeric array" do 
-      subject { @hash[:n_array] }
+      subject { @hash[:n_array].dup } # Call dup here since I'm modifying data
       it { should have_array_values_in_class Numeric }
       it { should have_array_values_of_the_same_class }
       it "with different values should not have same class" do 

@@ -20,7 +20,11 @@ Gem::Specification.new do |s|
   s.require_paths = ["lib"]
 
   s.add_dependency 'rspec', '>= 2.0.0'
+  s.add_dependency 'active_support'
+  s.add_dependency 'i18n'
 
+
+  s.add_development_dependency('rb-fsevent')
   s.add_development_dependency('guard-rspec')
   s.add_development_dependency('growl')
 end

@@ -1,4 +1,4 @@
-module Deep
+module NormalizedHash
   module Matchers
 
     # Test that hash has only keys of expected class(es). 

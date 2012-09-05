@@ -1,7 +1,7 @@
 
 require 'active_support/all'
 
-module Deep
+module NormalizedHash
   module Matchers
 
     # Test that array has only elements of expeted class(es). 

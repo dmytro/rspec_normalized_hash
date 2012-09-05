@@ -1,4 +1,4 @@
-module Deep
+module NormalizedHash
   module Matchers
     
     # All numeric classes we want to consider

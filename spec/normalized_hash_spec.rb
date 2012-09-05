@@ -1,4 +1,4 @@
-require 'common'
+require 'normalized_hash_matchers'
 
 #
 # This is a spec file to test functionality of the deep-hash rspecs.
@@ -224,7 +224,7 @@ describe '"Normalized" Hash' do
 #                         { :single_level => 2},
 #                        ],
             :deep => 
-            { :two_levelsess => 
+            { :two_levels => 
               [
                { :name => :one},
                { :name => :two},

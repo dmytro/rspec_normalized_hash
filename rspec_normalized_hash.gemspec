@@ -9,10 +9,12 @@ Gem::Specification.new do |s|
   s.authors     = ["dmytro"]
   s.email       = ["dmytro.kovalov@gmail.com"]
   s.homepage    = "http://github.com/dmytro/rspec_normalized_hash"
-  s.summary     = %q{Recursive Hash structure matcher for rspec}
-  s.description = s.summary
+  s.summary     = %q{Recursive Hash structure matcher for rspec.}
+  s.description = " Specification of Normalized Hash data structure main goal is to make data produced by parsers easy to use by software that does not know about internal data structure, i.e. data driven and schema-less. Data structures should be built in such a way as to make data self-documenting, easy adaptable and 'software-friendly'.
+Gem contains RSpec tests for testing Hash data structure for compliance with the requirements.
+See README.md and NormalizedHash.md files in gem's root directory."
 
-  #s.rubyforge_project = ""
+  s.rubyforge_project = "normalized-hash"
 
   s.files         = `git ls-files`.split("\n")
   s.test_files    = `git ls-files -- {test,spec,features}/*`.split("\n")

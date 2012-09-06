@@ -1,7 +1,7 @@
-# @title Uliska Parser Output Data Structure Standard
+# @title Normalized Hash Data Structure Standard
 
-Uliska Parser Output Data Structure Standard
---------------------------------------------
+Normalized Hash Data Structure Standard
+---------------------------------------
 
 Specification below describes hash data structure, main goal of which is to make data produced by Uliska parser easy to use by software that does not know about internal data structure, i.e. data driven and schema-less. Data structures should be built in such a way as to make data self-documenting, easy adaptable and "software-friendly".
 

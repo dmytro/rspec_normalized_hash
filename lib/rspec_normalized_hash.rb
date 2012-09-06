@@ -1,4 +1,5 @@
 $: << File.dirname(__FILE__)
+require 'rspec'
 require "normalized_hash/matchers"
 require "normalized_hash/hash_keys"
 require "normalized_hash/hash_values"

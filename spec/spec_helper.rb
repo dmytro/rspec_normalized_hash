@@ -1,3 +1,3 @@
 require 'rspec'
-require 'normalized_hash_matchers'
+require 'rspec_normalized_hash'
 require 'test_data'

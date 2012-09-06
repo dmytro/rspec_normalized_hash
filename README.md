@@ -30,7 +30,7 @@ Usage
 License 
 =======
 
-MIT
+Apache 2
 
 Author
 ======

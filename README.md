@@ -2,6 +2,9 @@
 Normalized Hash tests for RSpec
 ===============================
 
+[![Build Status](https://secure.travis-ci.org/dmytro/rspec_normalized_hash.png)](http://travis-ci.org/dmytro/rspec_normalized_hash)
+
+
 These are RSpec tests for Normalized Hash data structure standard. Standard itself and rationale why we (I) need it, is described in NormalizedHash.md file.
 
 
